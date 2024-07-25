@@ -5,12 +5,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
-    volumes:
-      - ./frontend:/app
     ports:
-      - "8080:8080"
-    env_file:
-      - .env
+      - "8080:80"
     depends_on:
       - backend
 

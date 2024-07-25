@@ -1,18 +1,13 @@
-# frontend/Dockerfile.frontend
-FROM node:14
-
+# Build stage
+FROM node:lts-alpine as build-stage
 WORKDIR /app
-
-COPY package.json yarn.lock ./
-
-# Install dependencies
-RUN yarn install
-
-# Copy the rest of the application code
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 8080
-
-# Command to run the application
-CMD ["yarn", "serve"]
+# Production stage
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
