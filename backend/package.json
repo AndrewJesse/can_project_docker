@@ -1,0 +1,14 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+      "start": "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    },
+    "dependencies": {
+      "fastapi": "^0.70.0",
+      "uvicorn": "^0.15.0"
+    }
+  }
+  
