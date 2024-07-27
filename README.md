@@ -1,3 +1,7 @@
+## Click video image to watch explanation and setup walkthrough
+[![image](https://github.com/user-attachments/assets/69d2a8b6-0407-44ac-951b-e663421aa324)](https://www.youtube.com/watch?v=QoXsRKB9-vs)
+
+
 # CAN_PROJECT
 This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the [most recent public deployment link can be found here.](https://github.com/AndrewJesse/can_project_docker/deployments).
 
