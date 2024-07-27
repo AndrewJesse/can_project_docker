@@ -1,37 +1,75 @@
 # CAN_PROJECT
+This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the updated link will be sent to the contributor of a main branch merge.
 
 ## Overview
-This project consists of a frontend and backend application. The backend is built with Python and FastAPI, and the frontend is built with Vue.js. This guide will help you set up and run the project using Docker.
+This project consists of the following components:
+- **Backend**: Python FastAPI
+- **Frontend**: Vue.js
+- **Database**: SQLite
+
+**DevOps**:
+- **Containerization**: Docker
+- **CI/CD**: GitHub Actions
+- **Hosting**: Vercel
 
 ## Prerequisites
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+- **Windows & Mac users**: [Download Docker Desktop](https://docs.docker.com/get-docker/)
+- **Linux users**: [Download Docker Compose](https://docs.docker.com/compose/install/)
 
-## Getting Started
+## Environment Variables Disclaimer
+The project uses a `.env` file to store the SQLite connection string. This file is included in the repository for simplicity.
 
-- Clone the Repository
+The `.env` file contains the following text:
+```env
+DATABASE_URL=sqlite:///./can_project.db
+```
 
-- Create a .env file in the root of the project and configure the necessary environment variables for the backend SQLite.
+## Getting started and building the dev environment
+1. **Run Docker Desktop**
+   - Ensure Docker Desktop is running on your machine.
 
-- content of .env file:
-```DATABASE_URL=sqlite:///./can_project.db```
+2. **Clone the Repository & Start a New Branch**
+   ```bash
+   git clone https://github.com/AndrewJesse/can_project_docker
+   cd can_project_docker
+   git checkout -b <new_branch_name>
+   ```
 
+3. **Navigate to the Root Folder and Run Docker Compose**
+   ```bash
+   docker-compose up
+   ```
 
-## Using Docker
-Build and Run Containers
-1) Open a terminal in the root project folder.
+4. **Open Your Browser and Navigate to:**
+   - [Frontend - http://localhost:8080](http://localhost:8080)
+   - [Backend - http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-2) Run the following command:
-```docker-compose up```
+5. **Make Changes to Code and Push**
+   - Make your code changes.
+   - Commit and push your changes to the repository.
+   ```bash
+   git add .
+   git commit -m "Your commit message"
+   git push origin <new_branch_name>
+   ```
 
-3) Open your browser and navigate to:
-
-Frontend: ```http://localhost:8080```
-
-Backend: ```http://127.0.0.1:8000/docs```
+6. **Merge to Main Branch and Deploy**
+   - Once changes are approved, merge your branch into the `main` branch.
+   - Upon merging, the project will be automatically deployed to Vercel.
+   - The updated deployment link will be sent to the contributor.
 
 ## Additional Commands
 
--View Logs ```docker-compose logs -f```
+- **View Logs**
+  ```bash
+  docker-compose logs -f
+  ```
 
--Stop All Containers ```docker-compose down```
+- **Stop All Containers**
+  ```bash
+  docker-compose down
+  ```
+
+## Deployment on Vercel
+- The project is configured to be automatically deployed to Vercel upon merging changes to the `main` branch.
+- Contributors will receive the updated link to the Vercel deployment upon a successful merge to the `main` branch.
