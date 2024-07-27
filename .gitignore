@@ -1,5 +1,5 @@
-# Ignore environment configuration files
-.env
+# Placeholder to Ignore environment configuration files
+# .env
 
 # Ignore virtual environment directory
 venv/
@@ -109,3 +109,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 notes.txt
+.vscode/settings.json

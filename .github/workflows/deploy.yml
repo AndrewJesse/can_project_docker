@@ -30,7 +30,20 @@ jobs:
       working-directory: ./frontend
 
     - name: Deploy to Vercel
-      run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+      id: vercel-deploy
+      run: |
+        npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} > deployment.txt
+        DEPLOYMENT_URL=$(grep -o 'https://[^ ]*' deployment.txt)
+        echo "DEPLOYMENT_URL=${DEPLOYMENT_URL}" >> $GITHUB_ENV
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    - name: Notify Author
+      if: github.event_name == 'pull_request'
+      run: |
+        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
+        COMMENT="The latest changes have been deployed! 🚀\n\nVisit your Vercel deployment [here](${DEPLOYMENT_URL})"
+        gh pr comment ${{ github.event.pull_request.number }} --body "${COMMENT}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
