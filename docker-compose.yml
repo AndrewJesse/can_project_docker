@@ -1,22 +1,21 @@
-version: "3.9"
+version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    environment:
+      - DATABASE_URL=sqlite:///./can_project.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
-      - "8080:80"
-    depends_on:
-      - backend
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.backend
+      - "8080:8080"
     volumes:
-      - ./backend:/app
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
+      - ./frontend:/app
