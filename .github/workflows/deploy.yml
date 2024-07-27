@@ -35,22 +35,21 @@ jobs:
         npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} > deployment.txt
         DEPLOYMENT_URL=$(grep -o 'https://[^ ]*' deployment.txt)
         echo "DEPLOYMENT_URL=${DEPLOYMENT_URL}" >> $GITHUB_ENV
+        echo "Deployment URL: ${DEPLOYMENT_URL}"
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-    - name: Install GitHub CLI
-      run: |
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-        sudo apt-add-repository https://cli.github.com/packages
-        sudo apt update
-        sudo apt install gh -y
 
     - name: Notify Author
       if: github.event_name == 'pull_request'
       run: |
         COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
         COMMENT="The latest changes have been deployed! 🚀\n\nVisit your Vercel deployment [here](${DEPLOYMENT_URL})"
-        gh pr comment ${{ github.event.pull_request.number }} --body "${COMMENT}"
+        PR_NUMBER=$(jq -r '.pull_request.number' "${GITHUB_EVENT_PATH}")
+        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"body\": \"${COMMENT}\"}" \
+             "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
