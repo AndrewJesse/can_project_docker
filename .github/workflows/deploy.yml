@@ -29,44 +29,8 @@ jobs:
       run: yarn build
       working-directory: ./frontend
 
-    - name: Install jq
-      run: sudo apt-get install jq
-
     - name: Deploy to Vercel
-      id: vercel-deploy
-      run: |
-        npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} > deployment.txt
-        DEPLOYMENT_URL=$(grep -o 'https://[^ ]*' deployment.txt)
-        echo "DEPLOYMENT_URL=${DEPLOYMENT_URL}" >> $GITHUB_ENV
-        echo "Deployment URL: ${DEPLOYMENT_URL}"
+      run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
       env:
         VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-    - name: Notify Author on Pull Request
-      if: github.event_name == 'pull_request'
-      run: |
-        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
-        COMMENT="The latest changes have been deployed! 🚀\n\nVisit your Vercel deployment [here](${DEPLOYMENT_URL})"
-        PR_NUMBER=$(jq -r '.pull_request.number' "${GITHUB_EVENT_PATH}")
-        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-             -H "Content-Type: application/json" \
-             -X POST \
-             -d "{\"body\": \"${COMMENT}\"}" \
-             "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Notify Author on Push to Main
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: |
-        COMMIT_AUTHOR=$(git log -1 --pretty=format:'%ae')
-        COMMENT="The latest changes have been deployed! 🚀\n\nVisit your Vercel deployment [here](${DEPLOYMENT_URL})"
-        COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')
-        curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-             -H "Content-Type: application/json" \
-             -X POST \
-             -d "{\"body\": \"${COMMENT}\"}" \
-             "https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }}/comments"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
