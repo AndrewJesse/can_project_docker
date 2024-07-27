@@ -1,5 +1,5 @@
 # CAN_PROJECT
-This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the updated link will be sent to the contributor of a main branch merge.
+This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the updated link will be sent to the contributor of a main branch merge. 
 
 ## Overview
 This project consists of the following components:
@@ -47,6 +47,7 @@ This project consists of the following components:
 
 6. **Merge to Main Branch and Deploy**
    - The project is configured to be automatically deployed to Vercel upon merging changes to the `main` branch.
+   - You must be a contributor to this project to sucsefully have your change deployed.
    - Once changes are approved, merge your branch into the `main` branch.
    - Upon merging, the project will be automatically deployed to Vercel.
    - The updated deployment link can be found at the top of this page [github.com/AndrewJesse/can_project_docker/deployments](https://github.com/AndrewJesse/can_project_docker/deployments).
