@@ -28,19 +28,43 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
     <div>Thank You for reading</div>
+    
+    <h1>Messages</h1>
+    <ul>
+      <li v-for="message in messages" :key="message.arbitration_id">
+        {{ message.timestamp }} - {{ message.data }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      messages: []
+    };
+  },
+  created() {
+    this.fetchMessages();
+  },
+  methods: {
+    async fetchMessages() {
+      try {
+        const response = await axios.get('http://localhost:8000/messages');
+        this.messages = response.data;
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

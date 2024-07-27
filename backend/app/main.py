@@ -5,6 +5,7 @@ from . import models
 from pydantic import BaseModel
 from datetime import datetime
 from sqlalchemy.sql import text
+from fastapi.middleware.cors import CORSMiddleware
 
 # Ensure the tables are created
 models.Base.metadata.create_all(bind=engine)
@@ -43,3 +44,11 @@ def read_root(db: Session = Depends(get_db)):
         return {"status": "Database is connected", "result": result[0]}
     except Exception as e:
         return {"status": "Database is not connected", "error": str(e)}
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Update this to your frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
