@@ -1,5 +1,5 @@
 # Placeholder to Ignore environment configuration files
-# .env
+.env
 
 # Ignore virtual environment directory
 venv/
