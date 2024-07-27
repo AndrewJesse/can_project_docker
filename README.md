@@ -1,5 +1,5 @@
 # CAN_PROJECT
-This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the updated link will be sent to the contributor of a main branch merge. 
+This guide will help you set up and run the project using Docker. This project is hosted on Vercel, and the [most recent public deployment link can be found here.](https://github.com/AndrewJesse/can_project_docker/deployments).
 
 ## Overview
 This project consists of the following components:
