@@ -46,11 +46,7 @@ This project consists of the following components:
    ```
 
 6. **Merge to Main Branch and Deploy**
+   - The project is configured to be automatically deployed to Vercel upon merging changes to the `main` branch.
    - Once changes are approved, merge your branch into the `main` branch.
    - Upon merging, the project will be automatically deployed to Vercel.
    - The updated deployment link can be found at the top of this page [github.com/AndrewJesse/can_project_docker/deployments](https://github.com/AndrewJesse/can_project_docker/deployments).
-
-
-## Deployment on Vercel
-- The project is configured to be automatically deployed to Vercel upon merging changes to the `main` branch.
-
