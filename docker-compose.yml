@@ -11,11 +11,22 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+    networks:
+      - app-network
+
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
-      - "8080:8080"
+      - "8080:80"  # Note: Expose port 80 for NGINX
     volumes:
       - ./frontend:/app
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
