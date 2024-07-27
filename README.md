@@ -16,14 +16,6 @@ This project consists of the following components:
 - **Windows & Mac users**: [Download Docker Desktop](https://docs.docker.com/get-docker/)
 - **Linux users**: [Download Docker Compose](https://docs.docker.com/compose/install/)
 
-## Environment Variables Disclaimer
-The project uses a `.env` file to store the SQLite connection string. This file is included in the repository for simplicity.
-
-The `.env` file contains the following text:
-```env
-DATABASE_URL=sqlite:///./can_project.db
-```
-
 ## Getting started and building the dev environment
 1. **Run Docker Desktop**
    - Ensure Docker Desktop is running on your machine.
