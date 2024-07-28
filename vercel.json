@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "src": "backend/app/main.py",
+      "use": "@vercel/python"
     },
     {
-      "src": "backend/app/main.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "50mb" }
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "frontend/dist" }
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/app/main.py" },
-    { "src": "/(.*)", "dest": "/frontend/$1" }
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
   ]
 }
