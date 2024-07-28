@@ -7,13 +7,13 @@
       "config": { "distDir": "dist" }
     },
     {
-      "src": "backend/package.json",
+      "src": "backend/app/main.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "50mb" }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/backend/$1" },
+    { "src": "/api/(.*)", "dest": "/backend/app/main.py" },
     { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
