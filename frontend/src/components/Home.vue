@@ -38,6 +38,10 @@ export default {
   },
   computed: {
     sortedMessages() {
+      if (!Array.isArray(this.messages)) {
+        console.error("messages is not an array", this.messages);
+        return [];
+      }
       return this.messages.sort((a, b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
@@ -53,11 +57,13 @@ export default {
   methods: {
     async fetchMessages() {
       try {
-        const baseUrl = process.env.NODE_ENV === 'production'
-          ? 'https://can-project-docker.vercel.app'
-          : 'http://localhost:8000';
-        const response = await axios.get(`${baseUrl}/api/messages`);
-        this.messages = response.data;
+        const response = await axios.get('http://127.0.0.1:8000/api/messages');
+        console.log("API response", response.data);
+        if (Array.isArray(response.data)) {
+          this.messages = response.data;
+        } else {
+          console.error("API response is not an array", response.data);
+        }
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
