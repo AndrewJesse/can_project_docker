@@ -4,11 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "vercel-build": "cd frontend && npm install && npm run build"
-  },
-  "engines": {
-    "node": "16.x"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "core-js": "^3.6.5",

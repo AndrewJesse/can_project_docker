@@ -6,9 +6,9 @@
       "use": "@vercel/python"
     },
     {
-      "src": "vercel-build.sh",
+      "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "frontend/dist" }
+      "config": { "distDir": "dist" }
     }
   ],
   "routes": [
