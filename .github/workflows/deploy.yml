@@ -40,6 +40,8 @@ jobs:
         pip install -r backend/requirements.txt
 
     - name: Run backend tests
+      env:
+        PYTHONPATH: backend
       run: pytest backend/tests
 
     - name: Deploy to Vercel
