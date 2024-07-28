@@ -9,15 +9,14 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": { 
-        "distDir": "dist",
-        "buildCommand": "cd frontend && npm run build"
+        "distDir": "frontend/dist"
       }
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/app/main.py" },
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/dist/index.html" }
+    { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
   ],
   "env": {
     "NODE_VERSION": "16.x"
