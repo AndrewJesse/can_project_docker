@@ -9,6 +9,7 @@ from datetime import datetime
 from sqlalchemy.sql import text
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,14 +47,14 @@ class CANMessageCreate(BaseModel):
     data: str
     timestamp: datetime
 
-@app.get("/api/messages")
+@app.get("/api/messages", response_class=JSONResponse)
 def read_messages(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
     logging.info("Fetching messages from the database")
     messages = db.query(models.CANMessage).offset(skip).limit(limit).all()
     logging.info(f"Fetched {len(messages)} messages")
     return jsonable_encoder(messages)
 
-@app.post("/api/messages", response_model=CANMessageCreate)
+@app.post("/api/messages", response_model=CANMessageCreate, response_class=JSONResponse)
 def create_message(message: CANMessageCreate, db: Session = Depends(get_db)):
     logging.info(f"Creating message: {message}")
     db_message = models.CANMessage(**message.dict())
@@ -61,14 +62,14 @@ def create_message(message: CANMessageCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_message)
     logging.info(f"Created message: {db_message}")
-    return db_message
+    return JSONResponse(content=jsonable_encoder(db_message))
 
-@app.get("/api/db-check")
+@app.get("/api/db-check", response_class=JSONResponse)
 def read_root(db: Session = Depends(get_db)):
     try:
         result = db.execute(text("SELECT 1")).fetchone()
         logging.info("Database connection successful")
-        return {"status": "Database is connected", "result": result[0]}
+        return JSONResponse(content={"status": "Database is connected", "result": result[0]})
     except Exception as e:
         logging.error(f"Database connection failed: {e}")
-        return {"status": "Database is not connected", "error": str(e)}
+        return JSONResponse(content={"status": "Database is not connected", "error": str(e)}, status_code=500)
