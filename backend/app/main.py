@@ -1,3 +1,5 @@
+import logging
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine, Base
@@ -5,12 +7,13 @@ from . import models
 from pydantic import BaseModel
 from datetime import datetime
 from sqlalchemy.sql import text
-from fastapi.middleware.cors import CORSMiddleware
 
 # Ensure the tables are created
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+logging.basicConfig(level=logging.INFO)
 
 def get_db():
     db = SessionLocal()
@@ -26,11 +29,13 @@ class CANMessageCreate(BaseModel):
 
 @app.get("/messages")
 def read_messages(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    logging.info("GET /messages called")
     messages = db.query(models.CANMessage).offset(skip).limit(limit).all()
     return messages
 
 @app.post("/messages", response_model=CANMessageCreate)
 def create_message(message: CANMessageCreate, db: Session = Depends(get_db)):
+    logging.info("POST /messages called")
     db_message = models.CANMessage(**message.dict())
     db.add(db_message)
     db.commit()
@@ -39,6 +44,7 @@ def create_message(message: CANMessageCreate, db: Session = Depends(get_db)):
 
 @app.get("/db-check")
 def read_root(db: Session = Depends(get_db)):
+    logging.info("GET /db-check called")
     try:
         result = db.execute(text("SELECT 1")).fetchone()
         return {"status": "Database is connected", "result": result[0]}
@@ -47,7 +53,7 @@ def read_root(db: Session = Depends(get_db)):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update this to your frontend URL in production
+    allow_origins=["https://your-frontend-url.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
