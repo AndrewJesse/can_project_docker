@@ -8,7 +8,7 @@
     "vercel-build": "vue-cli-service build"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "dependencies": {
     "core-js": "^3.6.5",
