@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Controlller Area Network bus data</h1>
+    <h1>Controller Area Network bus data</h1>
     <table>
       <thead>
         <tr>
@@ -53,7 +53,7 @@ export default {
   methods: {
     async fetchMessages() {
       try {
-        const response = await axios.get('http://localhost:8000/messages');
+        const response = await axios.get('http://127.0.0.1:8000/api/messages');
         this.messages = response.data;
       } catch (error) {
         console.error('Error fetching messages:', error);

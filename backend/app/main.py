@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine, Base
@@ -12,9 +13,15 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "https://can-project-docker.vercel.app",
-]
+if os.getenv("ENVIRONMENT") == "production":
+    origins = [
+        "https://can-project-docker.vercel.app",
+    ]
+else:
+    origins = [
+        "http://localhost:8080",
+    ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -37,7 +44,7 @@ class CANMessageCreate(BaseModel):
     timestamp: datetime
 
 @app.get("/api/messages")
-def read_messages(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def read_messages(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
     messages = db.query(models.CANMessage).offset(skip).limit(limit).all()
     return messages
 
