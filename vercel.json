@@ -18,5 +18,8 @@
     { "src": "/api/(.*)", "dest": "/backend/app/main.py" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/dist/index.html" }
-  ]
+  ],
+  "env": {
+    "NODE_VERSION": "16.x"
+  }
 }
