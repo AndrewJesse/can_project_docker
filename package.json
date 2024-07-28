@@ -1,6 +1,7 @@
 {
-  "private": true,
-  "workspaces": ["frontend"],
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "vercel-build": "cd frontend && npm install && npm run build"
   },
