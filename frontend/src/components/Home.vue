@@ -53,7 +53,10 @@ export default {
   methods: {
     async fetchMessages() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/messages');
+        const baseUrl = process.env.NODE_ENV === 'production'
+          ? 'https://can-project-docker.vercel.app'
+          : 'http://localhost:8000';
+        const response = await axios.get(`${baseUrl}/api/messages`);
         this.messages = response.data;
       } catch (error) {
         console.error('Error fetching messages:', error);
