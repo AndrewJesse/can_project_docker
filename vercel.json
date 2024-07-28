@@ -16,5 +16,11 @@
     { "src": "/api/(.*)", "dest": "backend/app/main.py" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "frontend/dist/index.html" }
+  ],
+  "files": [
+    {
+      "src": "backend/can_project.db",
+      "dest": "backend/can_project.db"
+    }
   ]
 }
