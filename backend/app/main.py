@@ -8,11 +8,15 @@ from pydantic import BaseModel
 from datetime import datetime
 from sqlalchemy.sql import text
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
 
+# Configure logging
 logging.basicConfig(level=logging.INFO)
 
 # Ensure the tables are created
+logging.info("Creating database tables")
 models.Base.metadata.create_all(bind=engine)
+logging.info("Database tables created")
 
 app = FastAPI()
 
@@ -24,7 +28,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://can-project-docker.vercel.app", "http://localhost:8080"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -41,8 +45,6 @@ class CANMessageCreate(BaseModel):
     arbitration_id: str
     data: str
     timestamp: datetime
-
-from fastapi.encoders import jsonable_encoder
 
 @app.get("/api/messages")
 def read_messages(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
