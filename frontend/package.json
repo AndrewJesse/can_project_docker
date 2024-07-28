@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "vercel-build": "vue-cli-service build"
+    "vercel-build": "cd frontend && npm install && npm run build"
   },
   "engines": {
     "node": "16.x"
