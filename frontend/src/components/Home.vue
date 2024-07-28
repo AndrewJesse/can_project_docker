@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>Controlller Area Network bus data</h1>
+    <h2>By AJ Marchese</h2>
     <table>
       <thead>
         <tr>
