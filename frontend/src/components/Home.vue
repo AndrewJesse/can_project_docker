@@ -53,10 +53,8 @@ export default {
   methods: {
     async fetchMessages() {
       try {
-        const baseUrl = process.env.NODE_ENV === 'production'
-          ? 'https://can-project-docker.vercel.app'
-          : 'http://localhost:8000';
-        const response = await axios.get(`${baseUrl}/api/messages`);
+        const baseUrl = process.env.VUE_APP_API_URL || 'http://localhost:8000/api';
+        const response = await axios.get(`${baseUrl}/messages`);
         console.log('API response:', response.data);  // Log the response
         this.messages = response.data;
       } catch (error) {
@@ -78,7 +76,6 @@ export default {
   }
 }
 </script>
-
 
 <style scoped>
 table {
