@@ -73,3 +73,8 @@ def read_root(db: Session = Depends(get_db)):
     except Exception as e:
         logging.error(f"Database connection failed: {e}")
         return JSONResponse(content={"status": "Database is not connected", "error": str(e)}, status_code=500)
+
+if __name__ == "__main__":
+    logging.info("Starting FastAPI application")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
