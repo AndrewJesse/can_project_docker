@@ -12,8 +12,12 @@
       "config": { "maxLambdaSize": "50mb" }
     }
   ],
+  "files": [
+    "backend/can_project.db"
+  ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/backend/app/main.py" },
-    { "src": "/(.*)", "dest": "/frontend/dist/index.html" }
+    { "src": "/api/(.*)", "dest": "backend/app/main.py" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "frontend/dist/index.html" }
   ]
 }
