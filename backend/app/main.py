@@ -53,7 +53,7 @@ def read_root(db: Session = Depends(get_db)):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://your-frontend-url.vercel.app"],
+    allow_origins=["https://can-project-docker.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
