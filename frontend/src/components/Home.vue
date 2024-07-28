@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     sortedMessages() {
-      return this.messages.sort((a, b) => {
+      return [...this.messages].sort((a, b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
         if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
@@ -53,12 +53,12 @@ export default {
   methods: {
     async fetchMessages() {
       try {
-        const baseUrl = process.env.VUE_APP_API_URL || 'http://localhost:8000/api';
-        const response = await axios.get(`${baseUrl}/messages`);
-        console.log('API response:', response.data);  // Log the response
-        this.messages = response.data;
+        const response = await axios.get('/api/messages');
+        console.log('API response:', response.data);
+        this.messages = Array.isArray(response.data) ? response.data : [];
       } catch (error) {
         console.error('Error fetching messages:', error);
+        this.messages = [];
       }
     },
     sortTable(column) {

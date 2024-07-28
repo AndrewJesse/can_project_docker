@@ -16,23 +16,15 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-environment = os.getenv("ENVIRONMENT")
-logging.info(f"Running in {environment} environment")
-
-if environment == "production":
-    origins = [
-        "https://can-project-docker.vercel.app",
-    ]
-else:
-    origins = [
-        "http://localhost:8080",
-    ]
-
-logging.info(f"Configured CORS for origins: {origins}")
+origins = [
+    "https://can-project-docker.vercel.app",
+    "http://localhost:8080",
+    "http://localhost:8000"
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:8080"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,12 +42,14 @@ class CANMessageCreate(BaseModel):
     data: str
     timestamp: datetime
 
+from fastapi.encoders import jsonable_encoder
+
 @app.get("/api/messages")
 def read_messages(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
     logging.info("Fetching messages from the database")
     messages = db.query(models.CANMessage).offset(skip).limit(limit).all()
     logging.info(f"Fetched {len(messages)} messages")
-    return messages
+    return jsonable_encoder(messages)
 
 @app.post("/api/messages", response_model=CANMessageCreate)
 def create_message(message: CANMessageCreate, db: Session = Depends(get_db)):
